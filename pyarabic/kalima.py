@@ -121,7 +121,7 @@ class kalima:
 	def __iadd__(self, other):
 		self.letters+= other.letters;
 		self.marks  += other.marks;
-	def __add__(self.other):
+	def __add__(self, other):
 		return kalima(self.letters + other.letters, self.marks  + other.marks);
 
 	#####################################
@@ -215,7 +215,7 @@ if __name__ == "__main__":
 	for word in words:
 		word=word.strip(); #strip
 		kword=kalima(word);
-		print u"\t".join([word, str(hash(word)),  str(hash(kword)) ]).encode('utf8');
-		print kword, pkword, len(kword),kword>=pkword, repr(kword);
+		print(u"\t".join([word, str(hash(word)),  str(hash(kword)) ]).encode('utf8'))
+		print(kword, pkword, len(kword),kword>=pkword, repr(kword))
 		
 		pkword=kword;
