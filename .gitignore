@@ -439,3 +439,5 @@
 /unicodeData/UFB50.pdf
 /unicodeData/UFE70.pdf
 /unicodeData/UnicodeData.txt
+
+*.pyc

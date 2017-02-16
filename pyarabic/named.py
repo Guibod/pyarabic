@@ -21,12 +21,12 @@ import pyarabic.named_const as named_const
 import pyarabic.propernouns as propernouns
 # from number import *
 DINENAMED = (
-u'شمس',
-u'تقي',
-u'علاء',
-u'نجم',
-u'نور',
-u'سيف',
+'شمس',
+'تقي',
+'علاء',
+'نجم',
+'نور',
+'سيف',
 
 )
 def is_proper_noun(word):
@@ -38,7 +38,7 @@ def is_proper_noun(word):
     @rtype: Boolean
     """
     # return word in named_const.ProperNouns    
-    return propernouns.ProperNouns.has_key(word)       
+    return word in propernouns.ProperNouns       
 
 def detect_named_position(wordlist):
     """
@@ -63,37 +63,37 @@ def detect_named_position(wordlist):
         word = wordlist[i]    
         if i+1 < len(wordlist):
             nextword = araby.strip_tashkeel(wordlist[i+1])    
-        else: nextword = u''
+        else: nextword = ''
         if i-1 >= 0: 
             previous = araby.strip_tashkeel(wordlist[i-1])    
             if previous and startnamed < 0  and\
-               previous[0] in (u'و', u'ف', u'ل', u'ب', u'ك'):
+               previous[0] in ('و', 'ف', 'ل', 'ب', 'ك'):
                 previous = previous[1:]    
         else: 
-            previous = u''
+            previous = ''
         #save the original word with possible harakat if exist
         word_nm = araby.strip_tashkeel(word)    
         key = word_nm    
         # the first word can have prefixes 
         if word_nm and startnamed < 0  and\
-          word_nm[0] in (u'و', u'ف', u'ل', u'ب', u'ك'):
+          word_nm[0] in ('و', 'ف', 'ل', 'ب', 'ك'):
             key = word_nm[1:]    
-        if startnamed < 0 and key in (u'ابن', ):
+        if startnamed < 0 and key in ('ابن', ):
             startnamed = i    
             endnamed = i
 
-        elif key in (u'ابن', u'بن', u'أبو', u'أبا', \
-            u'أبي', u'عبد' , u'عبيد' , u'بنو', u'بني', u'بنت'):
+        elif key in ('ابن', 'بن', 'أبو', 'أبا', \
+            'أبي', 'عبد' , 'عبيد' , 'بنو', 'بني', 'بنت'):
             if startnamed < 0:
                 startnamed = i    
             endnamed = i
     
-        elif previous in (u'بن', u'ابن', u'أبو', u'أبا', \
-           u'أبي', u'عبد', u'عبيد', u'بنو', u'بني', u'بنت'):
+        elif previous in ('بن', 'ابن', 'أبو', 'أبا', \
+           'أبي', 'عبد', 'عبيد', 'بنو', 'بني', 'بنت'):
             if startnamed < 0:
                 startnamed = i-1    
             endnamed = i
-        elif nextword in (u'بن', u'بنت',): 
+        elif nextword in ('بن', 'بنت',): 
             #  u'أبو', u'أبي', u'ابا',) :#or word in (u'الدين',):
             if startnamed < 0:
                 startnamed = i    
@@ -104,7 +104,7 @@ def detect_named_position(wordlist):
             endnamed = i
         else:
             if startnamed >= 0: #There are a previous number phrase.
-                if word_nm.startswith(u'ال') and word_nm.endswith(u'ي'):
+                if word_nm.startswith('ال') and word_nm.endswith('ي'):
                     # add family name إضافة الكنية
                     endnamed = i
 
@@ -135,7 +135,7 @@ def extract_named(text):
     for pos in positions:
         if len(pos) >= 2:
             if pos[0] <= len(wordlist) and pos[1] <= len(wordlist):
-                phrases.append(u' '.join(wordlist[pos[0]: pos[1]+1]))
+                phrases.append(' '.join(wordlist[pos[0]: pos[1]+1]))
     return phrases    
     
 
@@ -160,12 +160,12 @@ def extract_named_within_context(text):
             if pos[0] <= len(wordlist) and pos[1] <= len(wordlist):
                 if pos[0]-1 >= 0: 
                     previous = wordlist[pos[0]-1]    
-                else: previous = u''    
+                else: previous = ''    
                 if pos[1]+1 < len(wordlist): 
                     nextword = wordlist[pos[1]+1]    
-                else: nextword = u''    
+                else: nextword = ''    
                 phrases.append((previous, \
-                   u' '.join(wordlist[pos[0]: pos[1]+1]), nextword))
+                   ' '.join(wordlist[pos[0]: pos[1]+1]), nextword))
     return phrases    
 
 
@@ -180,13 +180,13 @@ def get_previous_tag(word):
     word = araby.strip_tashkeel(word)    
     #~ tags = u''    
     if word in named_const.NOUN_NASEB_LIST:
-        return u'منصوب'    
+        return 'منصوب'    
     elif word in named_const.JAR_LIST:
-        return u'مجرور'    
+        return 'مجرور'    
     elif word in named_const.RAFE3_LIST:
-        return u'مرفوع'    
+        return 'مرفوع'    
     else:
-        return u''    
+        return ''    
 
 
 def vocalize_named(wordlist, syn_tags = ""):
@@ -212,28 +212,28 @@ def vocalize_named(wordlist, syn_tags = ""):
         # the first word can have prefixes 
         if i == 0 and word_nm:  
             # word to get majrour tag
-            if word_nm in (u'أبي', u'بنو', u'آل', u'ابن',):
-                tags += u"مجرور"    
-            elif word_nm in (u'أبو', ):
-                tags += u"مرفوع"    
-            elif word_nm in (u'أبا', ):
-                tags += u"منصوب"    
+            if word_nm in ('أبي', 'بنو', 'آل', 'ابن',):
+                tags += "مجرور"    
+            elif word_nm in ('أبو', ):
+                tags += "مرفوع"    
+            elif word_nm in ('أبا', ):
+                tags += "منصوب"    
         # select vocalization
-        if word_nm == u'بن':
+        if word_nm == 'بن':
             bin_count += 1    
             #treat first bin according to tags
             if bin_count == 1:
-                if u'مجرور' in tags:
-                    voc = u'بْنِ'
-                elif u'مرفوع' in tags:
-                    voc = u'بْنُ'
-                elif u'منصوب' in tags:
-                    voc = u'بْنَ'
+                if 'مجرور' in tags:
+                    voc = 'بْنِ'
+                elif 'مرفوع' in tags:
+                    voc = 'بْنُ'
+                elif 'منصوب' in tags:
+                    voc = 'بْنَ'
                 else:
-                    voc = u'بْن'
+                    voc = 'بْن'
             else:
                 #  u'مجرور' 
-                voc = u'بْنِ'
+                voc = 'بْنِ'
         #Todo Vocalize names
         else:
             voc = word    
@@ -268,32 +268,32 @@ def detect_named(wordlist):
         key = word_nm  # make a key 
         if i+1 < len(wordlist):
             nextword = araby.strip_tashkeel(wordlist[i+1])    
-        else: nextword = u''
-        if previous and not startnamed  and previous[0] in (u'و', u'ف', u'ل', u'ب', u'ك'):
+        else: nextword = ''
+        if previous and not startnamed  and previous[0] in ('و', 'ف', 'ل', 'ب', 'ك'):
             previous = previous[1:]    
         # the first word can have prefixes 
-        if word_nm and not startnamed and word_nm[0] in (u'و', u'ف', u'ل', u'ب', u'ك'):
+        if word_nm and not startnamed and word_nm[0] in ('و', 'ف', 'ل', 'ب', 'ك'):
             key = word_nm[1:]    
-        if not startnamed and key in (u'ابن', ):
+        if not startnamed and key in ('ابن', ):
             startnamed = True
             taglist.append("NB")   
-        elif key in (u'ابن', u'بن', u'أبو', u'أبا', \
-            u'أبي', u'عبد' , u'عبيد' , u'بنو', u'بني', u'بنت'):
+        elif key in ('ابن', 'بن', 'أبو', 'أبا', \
+            'أبي', 'عبد' , 'عبيد' , 'بنو', 'بني', 'بنت'):
             if not startnamed:
                 startnamed = True
                 taglist.append("NB")   
             else:
                 taglist.append("NI")
     
-        elif previous in (u'بن', u'ابن', u'أبو', u'أبا', \
-           u'أبي', u'عبد', u'عبيد', u'بنو', u'بني', u'بنت'):
+        elif previous in ('بن', 'ابن', 'أبو', 'أبا', \
+           'أبي', 'عبد', 'عبيد', 'بنو', 'بني', 'بنت'):
             if not startnamed:
                 startnamed = True
                 taglist.pop()
                 taglist.append("NB")   
             else:
                 taglist.append("NI")
-        elif nextword in (u'بن', u'بنت',): 
+        elif nextword in ('بن', 'بنت',): 
             #  u'أبو', u'أبي', u'ابا',) :#or word in (u'الدين',):
             if not startnamed:
                 startnamed = True
@@ -306,7 +306,7 @@ def detect_named(wordlist):
             taglist.append("NB")   
         else:
             if startnamed >= 0: #There are a previous number phrase.
-                if word_nm.startswith(u'ال') and word_nm.endswith(u'ي'):
+                if word_nm.startswith('ال') and word_nm.endswith('ي'):
                     # add family name إضافة الكنية
                     taglist.append("NI")
                 else:
@@ -350,27 +350,27 @@ def pretashkeel_named(wordlist):
 if __name__ == '__main__':
     #import number as ArabicNumberToLetters
     TEXTS = [
-    u"وجد عبد الله بن عمر دينارا",
+    "وجد عبد الله بن عمر دينارا",
     
-    u"جاء  خالد بن الوليد وقاتل مسيلمة بن حذام الكذاب في موقعة الحديقة", 
-    u'''روى أحمد بن عقيل الشامي عن أبي طلحة
+    "جاء  خالد بن الوليد وقاتل مسيلمة بن حذام الكذاب في موقعة الحديقة", 
+    '''روى أحمد بن عقيل الشامي عن أبي طلحة
  المغربي أنّ عقابا بن مسعود بن أبي سعاد قال''',
-     u"قال مُحَمَّدُ بْنُ خَالِدُ بْنُ إسماعيلفي حديثه",
-    u"ِنْصَرَفْنَا إِلَى أَنَسُ بْنُ مَالِكَ الْحَديثِ"
+     "قال مُحَمَّدُ بْنُ خَالِدُ بْنُ إسماعيلفي حديثه",
+    "ِنْصَرَفْنَا إِلَى أَنَسُ بْنُ مَالِكَ الْحَديثِ"
     ]    
     for text1 in TEXTS:
         positions_named = detect_named_position(text1.split(' '))    
-        print positions_named    
+        print(positions_named)    
         text1 = araby.strip_tashkeel(text1)
 
    
         result = pretashkeel_named(araby.tokenize(text1))    
-        print u' '.join(result).encode('utf8')
+        print(' '.join(result).encode('utf8'))
         
         wordlist = araby.tokenize(text1)
         taglist = detect_named(wordlist)
 
         arepr = arabrepr.ArabicRepr()
-        print arepr.repr(zip(taglist, wordlist)).encode('utf8')  
+        print(arepr.repr(list(zip(taglist, wordlist))).encode('utf8'))  
    
 
